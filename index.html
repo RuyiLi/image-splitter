@@ -1,0 +1,96 @@
+<style> 
+    input, canvas, textarea { 
+        display: block; 
+        margin: 10px;
+    }
+
+    a{
+        font-size: 2rem;
+    }
+</style>
+
+<form>
+    <input type="file">
+    size of each emoji in pixels
+    <input type="number" value="128">
+    <input type="submit" value="split">
+</form>
+
+if the preview looks weird, try zooming out
+<div></div>
+<canvas></canvas>
+
+<a>download</a>
+<p></p>
+
+copy this to display the emojis after you've finished uploading them
+<textarea readonly rows="50" cols="100"></textarea>
+
+<script src="jszip.min.js"></script>
+<script src="filesaver.js"></script>
+<script>
+    const $ = document.querySelector.bind(document); // i made jquery :poggers:
+    const b = $('input[type="submit"]');
+    const section = $('canvas');
+    const ctx = section.getContext('2d');
+    const txt = $('textarea');
+    const previewDiv = $('div');
+
+    const rm = (tag) => {
+        for(el of document.querySelectorAll(tag)) el.parentNode.removeChild(el);
+    }
+
+    let fn;
+
+    $('form').onsubmit = (e) => {
+        e.preventDefault();
+        const file = URL.createObjectURL($('input[type="file"]').files[0]);
+        const size = +$('input[type="number"]').value;
+        b.value = "working...";
+
+        rm('img'); rm('br'); rm('canvas');
+
+        const img = new Image();
+        img.src = file;
+        img.onload = async () => {
+            txt.value = '';
+            section.width = section.height = size;
+
+            const startTime = Date.now();
+            const zip = new JSZip();
+            b.value = "wait for it...";
+
+            const w = Math.ceil(img.width/size);
+            const h = Math.ceil(img.height/size);
+
+            console.log(w, h, size);
+            
+            for(let y = 0; y>-h; y--){
+                for(let x = 0; x>-w; x--){
+                    ctx.drawImage(img, x*size, y*size);
+                    const blob = await toBlob(section);
+                    zip.file(`${-x}_${-y}.png`, blob);
+                    const preview = document.createElement('img');
+                    preview.src = URL.createObjectURL(blob);
+                    previewDiv.appendChild(preview);
+                    ctx.clearRect(0, 0, size, size);
+                    txt.value += `:${-x}_${-y}:`;
+                }
+                previewDiv.appendChild(document.createElement('br'));
+                txt.value += '\n';
+            }
+            const genZip = await zip.generateAsync({ type: 'blob' });
+            $('p').innerHTML = `time taken: ${Date.now()-startTime}ms`;
+            b.value = 'split';
+            //$('a').href = 'data:application/zip;base64,' + b64;
+            fn = () => saveAs(genZip, 'emojis.zip')
+            $('a').href = 'javascript:fn()';
+        }
+    }
+
+    const toBlob = (d) => {
+        return new Promise((res) => {
+            d.toBlob((blob) => res(blob));
+        })
+    }
+</script>
