@@ -37,6 +37,7 @@ if the preview looks weird, try zooming out
 <canvas></canvas>
 
 <a>download</a>
+<button disabled>download (if the other one doesn't work)</button>
 <p></p>
 
 copy this to display the emojis after you've finished uploading them. this will be included in the zip file
@@ -105,8 +106,11 @@ copy this to display the emojis after you've finished uploading them. this will 
             $('p').innerHTML = `time taken: ${Date.now()-startTime}ms`;
             b.value = 'split';
             //$('a').href = 'data:application/zip;base64,' + b64;
+            $('button').disabled = false;
             fn = () => saveAs(genZip, 'emojis.zip')
             $('a').href = 'javascript:fn()';
         }
     }
+
+    $('button').onclick = () => fn();
 </script>
