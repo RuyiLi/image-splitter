@@ -59,12 +59,15 @@ $('form').onsubmit = async (e) => {
 
         const previewSize = Math.min(prev.offsetWidth / w, prev.offsetHeight / h);
 
+        let done = 0;
+
         const queue = [];
         ctx.fillStyle = '#36393F';
         for (let y = 0; y > -h; y--) {
             const q = []; 
             for (let x = 0; x > -w; x--) {
-                progress.innerHTML = `Progress: ${-y * w - x}/${w * h}`;
+                ++done;
+                progress.innerHTML = `Progress: ${done}/${w * h}`;
                 const gif = new GIF();
                 for(const frame of frames) {
                     const image = frame.getImage();
@@ -79,7 +82,11 @@ $('form').onsubmit = async (e) => {
 
                 await new Promise((res, _) => {
                     gif.on('finished', blob => {
-                        zip.file(`${-x}_${-y}.gif`, blob);
+                        if (w * h > 50) {
+                            zip.file(`section${Math.floor(done / 50)}/${-x}_${-y}.gif`, blob);
+                        } else {
+                            zip.file(`${-x}_${-y}.gif`, blob);
+                        }
                         const preview = document.createElement('img');
                         preview.src = URL.createObjectURL(blob);
                         preview.width = preview.height = previewSize;
@@ -130,13 +137,19 @@ $('form').onsubmit = async (e) => {
         console.log(w, h, size);
 
         let str = '';
+        let done = 0;
 
         for (let y = 0; y > -h; y--) {
             for (let x = 0; x > -w; x--) {
-                progress.innerHTML = `Progress: ${-y * w - x}/${w * h}`;
+                ++done;
+                progress.innerHTML = `Progress: ${done}/${w * h}`;
                 ctx.drawImage(img, x * size, y * size);
                 const blob = await toBlob(section);
-                zip.file(`${-x}_${-y}.png`, blob);
+                if (w * h > 50) {
+                    zip.file(`section${Math.floor(done / 50)}/${-x}_${-y}.png`, blob);
+                } else {
+                    zip.file(`${-x}_${-y}.gif`, blob);
+                }
                 const preview = document.createElement('img');
                 preview.src = URL.createObjectURL(blob);
                 preview.width = preview.height = previewSize;
