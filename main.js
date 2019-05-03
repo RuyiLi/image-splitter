@@ -60,7 +60,7 @@ $('form').onsubmit = async (e) => {
         const previewSize = Math.min(prev.offsetWidth / w, prev.offsetHeight / h);
 
         const queue = [];
-
+        ctx.fillStyle = '#36393F';
         for (let y = 0; y > -h; y--) {
             const q = []; 
             for (let x = 0; x > -w; x--) {
@@ -72,6 +72,7 @@ $('form').onsubmit = async (e) => {
                     // console.log(x, y, x * size, y * size);
                     gif.addFrame(section, { copy: true, delay });
                     ctx.clearRect(0, 0, size, size);
+                    ctx.fillRect(0, 0, size, size);
                 }
 
                 gif.render();
