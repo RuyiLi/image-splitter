@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400');
+
+:root {
+    --black: #1b1918;
+    --dark: #222222;
+    --blue: #8487FF;
+    --grey: #c5c8c6;
+    --reddish: #d75f87;
+    --orange: #cb8700;
+    --white: #cccccc;
+    --lblue: #87AFD7;
+}
+
+* {
+    font-weight: 400;
+    font-family: 'Roboto Mono', monospace;
+}
+
+html, body {
+    padding: 0;
+    background-color: var(--dark);
+    color: var(--grey);
+    overflow-x: hidden;
+    text-align: center;
+}
+
+h1 {
+    color: var(--orange);
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+table {
+    width: 100%;
+    margin: 10px;
+    text-align: center;
+}
+
+div {
+    margin-top: 10px;
+}
+
+td#preview {
+    color: var(--lblue);
+}
+
+td {
+    vertical-align: top;
+    background-color: var(--black);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .2);
+    padding: 50px;
+    display: inline-block;
+    margin: 10px;
+}
+
+td:first-child {
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+input[type="number"] {
+    background-color: var(--white);
+    margin: auto;
+    border: 0;
+    padding: 5px;
+    outline: none;
+}
+
+canvas {
+    display: none;
+}
+
+input[type="submit"] {
+    margin: auto;
+    margin-top: 10px;
+    background-color: var(--grey);
+    cursor: pointer;
+    border: 0;
+    outline: none;
+    padding: 5px;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--white);
+}
+
+label[for="file"] {
+    padding: 5px;
+    color: var(--reddish);
+    border: 2px solid var(--reddish);
+    cursor: pointer;
+}
+
+label[for="file"]:hover {
+    color: var(--black);
+    background-color: var(--reddish);
+}
+
+label[for="size"], label[for="delay"] {
+    font-size: 0.9em;
+}
+
+label, input, textarea, strong { 
+    display: block; 
+    margin: 10px;
+}
+
+h4 {
+    display: block;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--blue);
+    font-size: 1.1em;
+    cursor: pointer;
+    outline: none;
+    padding: 5px 20px;
+    border: 0;
+    margin: 10px;
+    vertical-align: middle;
+    background-color: transparent;
+    border: 2px solid var(--blue);
+}
+
+a:hover {
+    color: var(--black);
+    background-color: var(--blue);
+}
+
+textarea {
+    background-color: var(--white);
+    color: var(--black);
+    outline: none;
+    border: 0;
+    margin: auto;
+    width: 90%;
+    margin-top: 15px;
+}
