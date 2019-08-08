@@ -1,94 +1,98 @@
 <!DOCTYPE html>
 
-<!-- Google Tag Manager -->
-<script>(function (w, d, s, l, i) {
-        w[ l ] = w[ l ] || []; w[ l ].push({
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        }); var f = d.getElementsByTagName(s)[ 0 ],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-NCC5ZQ7');</script>
-<!-- End Google Tag Manager -->
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[ l ] = w[ l ] || []; w[ l ].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[ 0 ],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TGVFZ65');</script>
+    <!-- End Google Tag Manager -->
 
-<!-- SEO Tags -->
-<title> Image Splitter </title>
-<meta charset='UTF-8'>
-<meta name='description' content='Splits images into square tiles.'>
-<meta name='author' content='Ruyi Li'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<meta property='og:description' content='Splits images into square tiles.'>
-<meta property='og:title' content='Image Splitter'>
-<meta property='og:site_name' content='image-splitter'>
-<meta property='og:type' content='website'>
-<meta property='og:url' content='https://ruyili.ca/image-splitter'>
-<meta charset="utf-8">
+    <!-- SEO Tags -->
+    <title> Image Splitter </title>
+    <meta charset='UTF-8'>
+    <meta name='description' content='Splits images into square tiles.'>
+    <meta name='author' content='Ruyi Li'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta property='og:description' content='Splits images into square tiles.'>
+    <meta property='og:title' content='Image Splitter'>
+    <meta property='og:site_name' content='image-splitter'>
+    <meta property='og:type' content='website'>
+    <meta property='og:url' content='https://ruyili.ca/image-splitter'>
+    <meta charset="utf-8">
 
-<!-- Stylesheets -->
-<link href="style.css" rel="stylesheet">
+    <!-- Stylesheets -->
+    <link href="style.css" rel="stylesheet">
 
-<!-- Scripts -->
-<script src="js/jszip.min.js"></script>
-<script src="js/filesaver.js"></script>
-<script src="https://unpkg.com/gif-frames@1.0.1?main=bundled-min"></script>
-<script src="js/gif.js"></script>
-<script src="js/gif.worker.js"></script>
-<script src="js/main.js"></script>
+    <!-- Scripts -->
+    <script src="js/jszip.min.js"></script>
+    <script src="js/filesaver.js"></script>
+    <script src="https://unpkg.com/gif-frames@1.0.1?main=bundled-min"></script>
+    <script src="js/gif.js"></script>
+    <script src="js/gif.worker.js"></script>
+    <script src="js/main.js"></script>
+</head>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCC5ZQ7" height="0" width="0"
-        style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TGVFZ65" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-<h1> Image Splitter </h1>
-<h2> A small tool to split images into square tiles, like large Discord emojis. </h2>
+    <h1> Image Splitter </h1>
+    <h2> A small tool to split images into square tiles, like large Discord emojis. </h2>
 
-<table>
-    <tr>
-        <td>
-            <form>
-                <label for="file"> Upload file </label>
-                <input type="file" id="file">
-                <em> No file selected. </em>
-                <label for="size"> Size of each emoji in pixels: </label>
-                <input type="number" value="128" id="size">
-                <label for="delay"> Delay between frames in milliseconds: </label>
-                <input type="number" value="10" id="delay">
-                <label for="prefix"> Prefix for the image files: </label>
-                <input type="text" id="prefix" placeholder="Prefix...">
-                <input type="submit" value="Split" id="submit">
-            </form>
-        </td>
-        <td id="preview">
-            Preview:
-            <div></div>
-            <canvas></canvas>
-        </td>
-        <td>
-            <a> Download </a>
-            <strong></strong>
-            <p></p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <h4> Copy this to display the emojis after you've finished uploading them. </h4>
-            <h4> This will be included as a text file in the downloaded zip file. </h4>
-            <textarea readonly></textarea>
-        </td>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <td>
+                <form>
+                    <label for="file"> Upload file </label>
+                    <input type="file" id="file">
+                    <em> No file selected. </em>
+                    <label for="size"> Size of each emoji in pixels: </label>
+                    <input type="number" value="128" id="size">
+                    <label for="delay"> Delay between frames in milliseconds: </label>
+                    <input type="number" value="10" id="delay">
+                    <label for="prefix"> Prefix for the image files: </label>
+                    <input type="text" id="prefix" placeholder="Prefix...">
+                    <input type="submit" value="Split" id="submit">
+                </form>
+            </td>
+            <td id="preview">
+                Preview:
+                <div></div>
+                <canvas></canvas>
+            </td>
+            <td>
+                <a> Download </a>
+                <strong></strong>
+                <p></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4> Copy this to display the emojis after you've finished uploading them. </h4>
+                <h4> This will be included as a text file in the downloaded zip file. </h4>
+                <textarea readonly></textarea>
+            </td>
+        </tr>
+    </table>
 
-<div id="footer">
-    <h1>
-        Image Splitter v1.2.
-        Created by
-        <a href="https://ruyili.ca">Ruyi Li</a>.
-    </h1>
+    <div id="footer">
+        <h1>
+            Image Splitter v1.2.
+            Created by
+            <a href="https://ruyili.ca">Ruyi Li</a>.
+        </h1>
 
-    <h2>
-        This project is open source! Click
-        <a href="https://github.com/RuyiLi/image-splitter">here</a>
-        to view the repository.
-    </h2>
-</div>
+        <h2>
+            This project is open source! Click
+            <a href="https://github.com/RuyiLi/image-splitter">here</a>
+            to view the repository.
+        </h2>
+    </div>
+</body>
