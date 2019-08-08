@@ -7,12 +7,12 @@
     --grey: #c5c8c6;
     --reddish: #d75f87;
     --orange: #cb8700;
-    --white: #cccccc;
+    --white: #ededed;
     --lblue: #87AFD7;
 }
 
 * {
-    font-weight: 400;
+    /* font-weight: 400; */
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -26,11 +26,11 @@ html, body {
 
 h1 {
     color: var(--orange);
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 h2 {
-    font-size: 1.2em;
+    font-size: 1.2rem;
 }
 
 table {
@@ -64,7 +64,7 @@ input[type="file"] {
     display: none;
 }
 
-input[type="number"] {
+input[type="number"], input[type="text"] {
     background-color: var(--white);
     margin: auto;
     border: 0;
@@ -79,15 +79,17 @@ canvas {
 input[type="submit"] {
     margin: auto;
     margin-top: 10px;
-    background-color: var(--grey);
+    background-color: var(--black);
     cursor: pointer;
-    border: 0;
+    border: 2px solid var(--white);
+    color: var(--white);
     outline: none;
-    padding: 5px;
+    padding: 0.5rem 0.8rem;
 }
 
 input[type="submit"]:hover {
     background-color: var(--white);
+    color: var(--black);
 }
 
 label[for="file"] {
@@ -103,7 +105,7 @@ label[for="file"]:hover {
 }
 
 label[for="size"], label[for="delay"] {
-    font-size: 0.9em;
+    font-size: 0.9rem;
 }
 
 label, input, textarea, strong { 
@@ -116,7 +118,7 @@ h4 {
     margin: 0;
 }
 
-a {
+td a {
     text-decoration: none;
     color: var(--blue);
     font-size: 1.1em;
@@ -143,4 +145,29 @@ textarea {
     margin: auto;
     width: 90%;
     margin-top: 15px;
+}
+
+div.imageRow {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+div.imageRow img {
+    border: .8px solid var(--reddish);
+}
+
+div#footer {
+    margin: 100px 0 0 0;
+    padding: 50px 0;
+    background: var(--black);
+    width: 100%;
+}
+
+div#footer h1 {
+    font-size: 2rem;
+}
+
+div#footer a {
+    color: var(--white);
 }
