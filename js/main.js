@@ -94,6 +94,7 @@ async function splitImages () {
             });
         } catch (err) {
             $('em').innerText = err;
+            throw err;
         }
 
         const delay = +$('input#delay').value;
