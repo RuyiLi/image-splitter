@@ -24,7 +24,7 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--dark);
+    background: transparent;
 }
 
 ::-webkit-scrollbar-track:hover {
@@ -32,7 +32,7 @@
 }
 
 * {
-    /* font-weight: 400; */
+    font-weight: 400;
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -92,10 +92,6 @@ input[type="number"], input[type="text"] {
     outline: none;
 }
 
-canvas {
-    display: none;
-}
-
 input[type="submit"] {
     margin: auto;
     margin-top: 10px;
@@ -124,13 +120,37 @@ label[for="file"]:hover {
     background-color: var(--reddish);
 }
 
-label[for="size"], label[for="delay"] {
-    font-size: 0.9rem;
+label {
+    font-size: 0.95rem;
+}
+
+input#shrink {
+    opacity: 0;
+    position: absolute;
+}
+
+label[for="shrink"] {
+    cursor: pointer;
+    user-select: none;
+}
+
+i.fa-check {
+    color: rgb(7, 219, 7);
+}
+
+i.fa-times {
+    color: rgb(255, 42, 42);
+}
+
+i.fa-check, i.fa-times {
+    font-size: 1.1rem;
+    vertical-align: middle;
+    width: 1.2rem;
 }
 
 label, input, textarea, strong { 
     display: block; 
-    margin: 10px;
+    margin: 0.5rem;
 }
 
 h4 {
@@ -164,6 +184,7 @@ textarea {
     border: 0;
     margin: auto;
     width: 90%;
+    height: 200px;
     margin-top: 15px;
 }
 

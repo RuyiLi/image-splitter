@@ -19,3 +19,4 @@ A big thanks to the creators of these libraries for their work. Without them, th
 - FileSaver by eligrey: https://github.com/eligrey/FileSaver.js/
 - gif.js by jnordberg: https://jnordberg.github.io/gif.js/
 - JSZip by Stuk: https://stuk.github.io/jszip/
+- gif-frames by benwiley4000: https://github.com/benwiley4000/gif-frames
