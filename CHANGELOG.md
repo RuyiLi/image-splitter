@@ -1,3 +1,6 @@
+# v1.3.1
+- Fixed a bug where still images were being generated with the .gif extension
+
 # v1.3
 - Added an option to shrink/resize the image to fit in under 50 files for ease of use when uploading Discord emojis
 - Added a feature to warn the user if a tile is too large for a Discord emoji (>256kb)

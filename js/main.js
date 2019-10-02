@@ -270,7 +270,7 @@ async function splitImages () {
                         if (numTiles > 50) {
                             zip.file(`section${ Math.floor(done / 50) }/${ prefix }_${ -x }_${ -y }.png`, blob);
                         } else {
-                            zip.file(`${ prefix }_${ -x }_${ -y }.gif`, blob);
+                            zip.file(`${ prefix }_${ -x }_${ -y }.png`, blob);
                         }
 
                         const preview = document.createElement('img');
