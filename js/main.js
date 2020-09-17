@@ -128,7 +128,7 @@ async function splitImages () {
             throw err;
         }
 
-        const delay = +delayInput.value;
+        const delay = +delayInput.value + 20;
 
         const img = frames[ 0 ].frameInfo;
         w = Math.ceil(img.width / size);
