@@ -103,7 +103,7 @@ async function splitImages () {
     let str = '';
     let done = 0;
     let w, h, numTiles;
-    const prefix = (prefixInput.value || file.name).replace(/\.\w+$/, '').replace(" ", "_").replace(/[^A-Za-z0-9_]/g, '');
+    const prefix = (prefixInput.value || file.name.replace(/\.\w+$/, '')).replace(/\s+/g, '_').replace(/[^\w]/g, '');
     const zip = new JSZip();
     const startTime = Date.now();
 
