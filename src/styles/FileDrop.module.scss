@@ -1,0 +1,15 @@
+.FileDrop {
+  flex: 3;
+  height: 100vh;
+  margin-left: -$wave-width;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 15rem;
+  height: 15rem;
+}
