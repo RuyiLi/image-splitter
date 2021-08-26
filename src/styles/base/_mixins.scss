@@ -1,0 +1,11 @@
+@mixin set-light($name) {
+  --#{$name}-100: #{$white-100};
+  --#{$name}-200: #{$white-200};
+  --#{$name}-300: #{$white-300};
+}
+
+@mixin set-dark($name) {
+  --#{$name}-100: #{$black-100};
+  --#{$name}-200: #{$black-200};
+  --#{$name}-300: #{$black-300};
+}

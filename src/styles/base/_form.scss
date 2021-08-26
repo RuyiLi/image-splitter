@@ -1,0 +1,61 @@
+$input-padding: 0.6rem 0.75rem;
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: $padding;
+  h1 {
+    margin-bottom: $margin;
+  }
+}
+
+label {
+  font-size: 0.9rem;
+  margin-top: $margin;
+  margin-bottom: 0.3rem;
+  + input {
+    margin-bottom: $margin;
+  }
+}
+
+input {
+  display: block;
+  padding: $input-padding;
+  background: var(--bg-100);
+  border: 1px solid var(--bg-300);
+  border-radius: $radius;
+  font-weight: 300 !important;
+
+  &[type='checkbox'] {
+    display: none;
+
+    + label {
+      margin-top: 0;
+      width: 100%;
+      padding: $input-padding;
+      border-radius: $radius;
+
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+
+      color: $white-100;
+      background: $red;
+
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+
+    &:checked + label {
+      color: $black-100;
+      background: $green;
+    }
+  }
+
+  &:focus {
+    border-color: var(--fg-100);
+  }
+}

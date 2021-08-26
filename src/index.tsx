@@ -1,17 +1,11 @@
 import './styles/index.scss';
-
-import { FileDrop } from './components';
-import { SplitSettings } from './components/SplitSettings';
 import { render } from 'solid-js/web';
-import styles from './styles/App.module.scss';
+import { App } from './App';
+import { library, dom } from '@fortawesome/fontawesome-svg-core';
+import { faLightbulb, faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
-function App() {
-  return (
-    <div class={styles.App}>
-      <SplitSettings />
-      <FileDrop />
-    </div>
-  );
-}
+// Load Font Awesome
+library.add(faLightbulb, faFileUpload);
+dom.watch();
 
 render(() => <App />, document.getElementById('root'));

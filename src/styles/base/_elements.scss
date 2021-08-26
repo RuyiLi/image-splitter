@@ -1,0 +1,35 @@
+.box {
+  padding: $padding;
+  border: 1px solid var(--bg-300);
+  border-radius: $radius;
+  background: var(--bg-100);
+
+  transition: $transition-duration box-shadow;
+
+  &:hover,
+  &:focus {
+    box-shadow: $shadow var(--bg-300);
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  .col {
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.invisible {
+  position: absolute;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.no-select {
+  pointer-events: none;
+  user-select: none;
+}

@@ -1,35 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap');
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Atkinson Hyperlegible',
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica',
+    'Helvetica Neue', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  font-style: normal;
+  line-height: initial;
+  font-weight: 600;
+
   box-sizing: border-box;
 
-  --foreground: $white;
-  --background: $black;
+  @include set-dark(fg);
+  @include set-light(bg);
 
-  &.light-theme {
-    --foreground: $black;
-    --background: $white;
+  &.dark-theme {
+    @include set-light(fg);
+    @include set-dark(bg);
   }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-h1 {
-  margin: 0;
-  font-size: 2.5rem;
-}
-
-h2 {
-  margin: 0;
-  font-size: 2rem;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }

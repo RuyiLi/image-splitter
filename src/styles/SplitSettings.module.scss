@@ -1,26 +1,21 @@
 .SplitSettings {
-  flex: 1;
+  position: absolute;
+  top: $padding;
+  left: $padding;
+  bottom: $padding;
 
-  display: flex;
-  flex-direction: row;
-}
-
-.settings {
-  height: 100vh;
-  width: 20vw;
-  background: $theme;
-  transition: 0.3s;
+  min-width: 25vw;
+  transform: translateX(calc(-25vw - #{$padding}));
+  transition: $transition-duration transform;
 
   &.collapsed {
-    width: 0;
-
-    * {
-      opacity: 0;
-    }
+    transform: translateX(0);
   }
 }
 
-.wave {
-  height: 100vh;
-  cursor: pointer;
+.settings {
+  width: 100%;
+  height: 100%;
+  padding: $padding;
+  overflow: hidden auto;
 }
