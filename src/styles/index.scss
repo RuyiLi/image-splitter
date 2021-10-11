@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap';
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica',
+  font-family: -apple-system, BlinkMacSystemFont, 'Ubuntu', 'Helvetica',
     'Helvetica Neue', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,9 +10,10 @@ body {
 
   font-style: normal;
   line-height: initial;
-  font-weight: 600;
+  font-weight: 400;
 
   box-sizing: border-box;
+  overflow: hidden;
 
   @include set-dark(fg);
   @include set-light(bg);

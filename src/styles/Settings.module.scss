@@ -1,0 +1,20 @@
+.Settings {
+  flex: 0 0 25vw;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+  justify-content: space-between;
+
+  background: var(--bg-200);
+
+  form {
+    padding: $padding;
+  }
+}
+
+.SiteSettings {
+  border-top: 1px solid var(--bg-300);
+  margin-top: auto;
+  border-radius: $radius $radius 0 0;
+}

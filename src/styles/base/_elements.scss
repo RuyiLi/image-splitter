@@ -15,6 +15,7 @@
 .row {
   display: flex;
   flex-direction: row;
+
   .col {
     padding: 0.4rem;
     display: flex;
@@ -32,4 +33,9 @@
 .no-select {
   pointer-events: none;
   user-select: none;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
 }

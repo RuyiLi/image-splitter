@@ -410,6 +410,11 @@ escape-string-regexp@^1.0.5:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
+fflate@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.7.1.tgz#56e87e87c3f2fe01b025fbb1c4ea835990c02fa2"
+  integrity sha512-VYM2Xy1gSA5MerKzCnmmuV2XljkpKwgJBKezW+495TTnTCh1x5HcYa1aH8wRU/MfTGhW4ziXqgwprgQUVl3Ohw==
+
 fill-range@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
@@ -551,6 +556,18 @@ picomatch@^2.0.4, picomatch@^2.2.1:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.0.tgz#f1f061de8f6a4bf022892e2d128234fb98302972"
   integrity sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==
+
+pinch-zoom-element@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/pinch-zoom-element/-/pinch-zoom-element-1.1.1.tgz#ea86eb5fb93b2619bd70843ad012f07400e44c66"
+  integrity sha512-aqgz+Fqw2UgMUUfxWD3UEE9YsgEyHKSma4Y2YQG+PlgX/0sTMafP8X663VlMME6G04OWyU3u2uyG86fbFEajug==
+  dependencies:
+    pointer-tracker "^2.0.3"
+
+pointer-tracker@^2.0.3:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/pointer-tracker/-/pointer-tracker-2.5.2.tgz#dcae947fd7343c215742f04a730455a41e373104"
+  integrity sha512-0OZXqAwKo2W7L8ViSpCMDyPj/U40w8zPS/0tfrszz3rcfGTdtQlWDCwKbMRG2YGn7zLxv2kUAIjklAwBgyHHfA==
 
 postcss@^8.3.6:
   version "8.3.6"
