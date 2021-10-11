@@ -1,0 +1,29 @@
+.SplitInfo {
+  position: absolute;
+  right: 0;
+  padding: $padding;
+
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius 0 0 $radius;
+  z-index: 999;
+
+  background: var(--bg-200);
+
+  button {
+    width: 100%;
+    background: transparent;
+    border: 2px solid var(--fg-100);
+    color: var(--fg-100);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-top: $padding;
+    padding: 0.4rem 0;
+
+    &:hover {
+      color: var(--bg-100);
+      background: var(--fg-100);
+    }
+  }
+}

@@ -5,34 +5,39 @@ form {
   flex-direction: column;
   justify-content: center;
 
-  padding: $padding;
   h1 {
     margin-bottom: $margin;
   }
 }
 
 label {
-  font-size: 0.9rem;
   margin-top: $margin;
-  margin-bottom: 0.3rem;
-  + input {
-    margin-bottom: $margin;
+  font-size: 0.9rem;
+
+  input {
+    margin: 0.3rem 0 $margin;
   }
 }
 
 input {
   display: block;
   padding: $input-padding;
-  background: var(--bg-100);
+  width: 100%;
+
+  background: var(--bg-200);
   border: 1px solid var(--bg-300);
   border-radius: $radius;
-  font-weight: 300 !important;
+  outline: none;
+
+  font-family: inherit;
+  font-weight: inherit;
 
   &[type='checkbox'] {
     display: none;
 
     + label {
-      margin-top: 0;
+      display: block;
+      margin-top: 0.3rem;
       width: 100%;
       padding: $input-padding;
       border-radius: $radius;
@@ -41,8 +46,8 @@ input {
       text-align: center;
       user-select: none;
 
-      color: $white-100;
-      background: $red;
+      color: var(--fg-100);
+      background: var(--bg-100);
 
       &:first-child {
         padding-top: 0;
@@ -50,12 +55,17 @@ input {
     }
 
     &:checked + label {
-      color: $black-100;
-      background: $green;
+      color: var(--fg-100);
+      background: var(--bg-100);
     }
   }
 
-  &:focus {
+  &.invalid {
+    border-color: $red !important;
+  }
+
+  &:focus,
+  &.focus-visible {
     border-color: var(--fg-100);
   }
 }
