@@ -31,7 +31,7 @@ export function useStore(): [Store<IAppState>, SetStoreFunction<IAppState>] {
         tileSize: 32,
         columns: 5,
         rows: 5,
-        filePrefix: 'tile_',
+        filePrefix: 'image',
         frameDelay: 10,
       },
       siteSettings: {

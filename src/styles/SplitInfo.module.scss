@@ -10,6 +10,15 @@
 
   background: var(--bg-200);
 
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+
+  p {
+    margin: 0;
+  }
+
   button {
     width: 100%;
     background: transparent;
@@ -18,7 +27,7 @@
     cursor: pointer;
     font-family: inherit;
     font-size: 1rem;
-    margin-top: $padding;
+    margin-top: $margin;
     padding: 0.4rem 0;
 
     &:hover {
@@ -26,4 +35,9 @@
       background: var(--fg-100);
     }
   }
+}
+
+.KeyContainer p {
+  text-align: right;
+  color: var(--fg-300);
 }

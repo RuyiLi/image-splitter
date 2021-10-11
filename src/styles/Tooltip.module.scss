@@ -1,0 +1,46 @@
+.Tooltip {
+  position: relative;
+
+  &:hover > .TooltipText {
+    display: block;
+  }
+
+  > .TooltipText {
+    display: none;
+    position: absolute;
+
+    width: max-content;
+    max-width: max(400px, 20vw);
+
+    padding: 0.2rem 0.3rem;
+    z-index: 999;
+
+    color: var(--fg-100);
+    background: var(--bg-100);
+    border-radius: $radius;
+
+    &.right {
+      top: 50%;
+      transform: translateY(-50%);
+      left: calc(100% + #{$padding});
+    }
+
+    &.left {
+      top: 50%;
+      transform: translateY(-50%);
+      right: calc(100% + #{$padding});
+    }
+
+    &.top {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(100% + #{$padding});
+    }
+
+    &.bottom {
+      left: 50%;
+      transform: translateX(-50%);
+      top: calc(100% + #{$padding});
+    }
+  }
+}
