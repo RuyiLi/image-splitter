@@ -11,6 +11,7 @@ form {
 }
 
 label {
+  // position: relative;
   margin-top: $margin;
   font-size: 0.9rem;
 
@@ -37,7 +38,7 @@ input {
 
     + label {
       display: block;
-      margin-top: 0.3rem;
+      margin: 0.3rem 0 $margin;
       width: 100%;
       padding: $input-padding;
       border-radius: $radius;

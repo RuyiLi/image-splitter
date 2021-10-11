@@ -2,6 +2,7 @@ import { createEffect, Show } from 'solid-js';
 import { ISiteSettings, ISplitSettings, useStore } from '../store';
 import styles from '../styles/Settings.module.scss';
 import { isGif } from '../util';
+import { Tooltip } from './Tooltip';
 
 export function Settings() {
   let colorAInput, colorBInput;
@@ -65,25 +66,32 @@ export function Settings() {
         <form>
           <h1>Split Settings</h1>
 
-          <label>
-            Tile Size
-            <input
-              type="number"
-              placeholder="32"
-              value={state.splitSettings.tileSize}
-              onInput={makeSplitUpdater('tileSize')}
-            />
-          </label>
+          <Tooltip text="The size of each tile in pixels." position="right">
+            <label>
+              Tile Size
+              <input
+                type="number"
+                placeholder="32"
+                value={state.splitSettings.tileSize}
+                onInput={makeSplitUpdater('tileSize')}
+              />
+            </label>
+          </Tooltip>
 
-          <label>
-            File Prefix
-            <input
-              type="text"
-              placeholder="image_"
-              value={state.splitSettings.filePrefix}
-              onInput={makeSplitUpdater('filePrefix')}
-            />
-          </label>
+          <Tooltip
+            text="What the file name of each tile starts with. Each image will be named according to the format of prefix_x_y."
+            position="right"
+          >
+            <label>
+              File Prefix
+              <input
+                type="text"
+                placeholder="image"
+                value={state.splitSettings.filePrefix}
+                onInput={makeSplitUpdater('filePrefix')}
+              />
+            </label>
+          </Tooltip>
 
           <Show when={isGif(state.image)}>
             <label>
@@ -116,27 +124,37 @@ export function Settings() {
           </label>
         </label>
 
-        <label>
-          Color A
-          <input
-            ref={colorAInput}
-            type="text"
-            placeholder="#ededed82"
-            value={state.siteSettings.colorA}
-            onInput={makeSiteUpdater('colorA')}
-          />
-        </label>
+        <Tooltip
+          text="These colors will be shown, alternating, in a grid over the image to display how the tiles will look like."
+          position="right"
+        >
+          <label>
+            Color A
+            <input
+              ref={colorAInput}
+              type="text"
+              placeholder="#ededed50"
+              value={state.siteSettings.colorA}
+              onInput={makeSiteUpdater('colorA')}
+            />
+          </label>
+        </Tooltip>
 
-        <label>
-          Color B
-          <input
-            ref={colorBInput}
-            type="text"
-            placeholder="#18181880"
-            value={state.siteSettings.colorB}
-            onInput={makeSiteUpdater('colorB')}
-          />
-        </label>
+        <Tooltip
+          text="These colors will be shown, alternating, in a grid over the image to display how the tiles will look like."
+          position="right"
+        >
+          <label>
+            Color B
+            <input
+              ref={colorBInput}
+              type="text"
+              placeholder="#18181850"
+              value={state.siteSettings.colorB}
+              onInput={makeSiteUpdater('colorB')}
+            />
+          </label>
+        </Tooltip>
       </form>
     </div>
   );

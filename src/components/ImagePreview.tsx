@@ -6,6 +6,7 @@ import PinchZoom from 'pinch-zoom-element';
 import { createStore, produce } from 'solid-js/store';
 import { SplitInfo } from './SplitInfo';
 import * as fflate from 'fflate';
+import { Tooltip } from './Tooltip';
 
 interface SetTransformOpts {
   scale?: number;
@@ -93,7 +94,7 @@ export function ImagePreview() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(state.image, 0, 0);
 
-    const { tileSize, columns, rows } = state.splitSettings;
+    const { tileSize, columns, rows, filePrefix } = state.splitSettings;
     const splitCanvas = document.createElement('canvas');
     const splitCtx = splitCanvas.getContext('2d');
     splitCanvas.width = splitCanvas.height = tileSize;
@@ -119,7 +120,7 @@ export function ImagePreview() {
 
         splitCanvas.toBlob(async function (blob) {
           const buf = await blob.arrayBuffer();
-          const fname = `${state.splitSettings.filePrefix}_${x}_${y}.png`;
+          const fname = `${filePrefix}_${x}_${y}.png`;
           zip[fname] = new Uint8Array(buf);
 
           if (--left <= 0) {
@@ -127,7 +128,7 @@ export function ImagePreview() {
               if (err) console.error(err);
               const a = document.createElement('a');
               a.href = URL.createObjectURL(new Blob([out]));
-              a.download = 'poggers.zip';
+              a.download = `${filePrefix}_split_result.zip`;
               a.click();
               URL.revokeObjectURL(a.href);
             });
@@ -166,19 +167,33 @@ export function ImagePreview() {
       </pinch-zoom>
 
       <div class={styles.ZoomControls}>
-        <button title="Cancel" onClick={cancel}>
-          <i class="fas fa-times"></i>
-        </button>
-        <button title="Zoom Out" onClick={createZoom(1)}>
-          <i class="fas fa-minus"></i>
-        </button>
-        <h1>{zoom()}%</h1>
-        <button title="Zoom In" onClick={createZoom(-1)}>
-          <i class="fas fa-plus"></i>
-        </button>
-        <button title="Reset Position" onClick={resetTransform}>
-          <i class="fas fa-redo"></i>
-        </button>
+        <Tooltip text="Cancel" position="top">
+          <button title="Cancel" onClick={cancel}>
+            <i class="fas fa-times"></i>
+          </button>
+        </Tooltip>
+
+        <Tooltip text="Zoom Out" position="top">
+          <button title="Zoom Out" onClick={createZoom(1)}>
+            <i class="fas fa-minus"></i>
+          </button>
+        </Tooltip>
+
+        <Tooltip text="Zoom Level" position="top">
+          <h1>{zoom()}%</h1>
+        </Tooltip>
+
+        <Tooltip text="Zoom In" position="top">
+          <button title="Zoom In" onClick={createZoom(-1)}>
+            <i class="fas fa-plus"></i>
+          </button>
+        </Tooltip>
+
+        <Tooltip text="Reset Position" position="top">
+          <button title="Reset Position" onClick={resetTransform}>
+            <i class="fas fa-redo"></i>
+          </button>
+        </Tooltip>
       </div>
     </div>
   );

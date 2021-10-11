@@ -15,12 +15,12 @@
 .row {
   display: flex;
   flex-direction: row;
+}
 
-  .col {
-    padding: 0.4rem;
-    display: flex;
-    flex-direction: column;
-  }
+.col {
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .invisible {
