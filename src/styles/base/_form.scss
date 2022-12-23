@@ -10,6 +10,12 @@ form {
   }
 }
 
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
 label {
   // position: relative;
   margin-top: $margin;
@@ -18,6 +24,12 @@ label {
   input {
     margin: 0.3rem 0 $margin;
   }
+}
+
+:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 input {

@@ -10,11 +10,25 @@
 
   form {
     padding: $padding;
+    padding-bottom: math.div($padding, 2);
   }
 }
 
 .SiteSettings {
-  border-top: 1px solid var(--bg-300);
   margin-top: auto;
+  border-top: 1px solid var(--bg-300);
   border-radius: $radius $radius 0 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+.Footer {
+  padding-bottom: 1rem;
+  text-align: center;
+  p {
+    line-height: 1.2rem;
+    margin: 0;
+  }
 }

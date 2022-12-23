@@ -1,10 +1,10 @@
-import { Tooltip } from './Tooltip';
-import { useStore } from '../store';
-import styles from '../styles/SplitInfo.module.scss';
-import { classes } from '../util';
+import { Tooltip } from './Tooltip'
+import { classes } from '../util'
+import styles from '../styles/SplitInfo.module.scss'
+import { useStore } from '../store'
 
 export function SplitInfo(props: { onSplit: () => unknown }) {
-  const [state, setState] = useStore();
+  const [state, setState] = useStore()
 
   return (
     <div class={styles.SplitInfo}>
@@ -28,6 +28,12 @@ export function SplitInfo(props: { onSplit: () => unknown }) {
           >
             <p>Overflow Y</p>
           </Tooltip>
+          <Tooltip
+            text="Time taken in milliseconds for the last split"
+            position="left"
+          >
+            <p>Time Taken</p>
+          </Tooltip>
         </div>
         <div class="col">
           <p>{state.splitSettings.columns}</p>
@@ -42,9 +48,15 @@ export function SplitInfo(props: { onSplit: () => unknown }) {
               state.image.height}
             px
           </p>
+          <p>
+            {state.timeTaken}
+            ms
+          </p>
         </div>
       </div>
-      <button onClick={props.onSplit}>Split</button>
+      <button disabled={state.isSplitting} onClick={props.onSplit}>
+        Split
+      </button>
     </div>
-  );
+  )
 }
