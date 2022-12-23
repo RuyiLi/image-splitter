@@ -1,14 +1,14 @@
-import { Component, onMount, createSignal, Show, createEffect } from 'solid-js';
-import styles from '../styles/Tooltip.module.scss';
-import { classes } from '../util';
+import { Component } from 'solid-js'
+import { classes } from '../util'
+import styles from '../styles/Tooltip.module.scss'
 
 interface TooltipProps {
-  text: string;
-  position?: 'top' | 'bottom' | 'left' | 'right';
+  text: string
+  position?: 'top' | 'bottom' | 'left' | 'right'
 }
 
 export const Tooltip: Component<TooltipProps> = (props) => {
-  let container;
+  let container
   return (
     <div ref={container} class={styles.Tooltip}>
       {props.children}
@@ -16,5 +16,5 @@ export const Tooltip: Component<TooltipProps> = (props) => {
         {props.text}
       </span>
     </div>
-  );
-};
+  )
+}
