@@ -1,9 +1,4 @@
-import {
-  type ISiteSettings,
-  type ISplitSettings,
-  defaultSettings,
-  useStore,
-} from '../store'
+import { type ISiteSettings, type ISplitSettings, defaultSettings, useStore } from '../store'
 import { Show, createEffect } from 'solid-js'
 
 import { Tooltip } from './Tooltip'
@@ -42,10 +37,7 @@ export function Settings() {
     key: keyof ISplitSettings,
     target: 'splitSettings'
   ): (evt: InputEvent) => void
-  function makeUpdater(
-    key: keyof ISiteSettings,
-    target: 'siteSettings'
-  ): (evt: InputEvent) => void
+  function makeUpdater(key: keyof ISiteSettings, target: 'siteSettings'): (evt: InputEvent) => void
   function makeUpdater(key: string, target: string) {
     return function (evt: InputEvent) {
       const input = evt.target as HTMLInputElement
@@ -63,10 +55,8 @@ export function Settings() {
     }
   }
 
-  const makeSplitUpdater = (key: keyof ISplitSettings) =>
-    makeUpdater(key, 'splitSettings')
-  const makeSiteUpdater = (key: keyof ISiteSettings) =>
-    makeUpdater(key, 'siteSettings')
+  const makeSplitUpdater = (key: keyof ISplitSettings) => makeUpdater(key, 'splitSettings')
+  const makeSiteUpdater = (key: keyof ISiteSettings) => makeUpdater(key, 'siteSettings')
 
   return (
     <div class={styles.Settings}>
@@ -82,10 +72,7 @@ export function Settings() {
                   type="number"
                   placeholder="32"
                   value={state.splitSettings.tileSize}
-                  onInput={debounce(
-                    makeSplitUpdater('tileSize'),
-                    DEBOUNCE_WAIT
-                  )}
+                  onInput={makeSplitUpdater('tileSize')}
                 />
               </label>
             </Tooltip>
@@ -106,10 +93,7 @@ export function Settings() {
             </Tooltip>
 
             <Show when={state.isAnimated}>
-              <Tooltip
-                text="Time in milliseconds between each frame."
-                position="right"
-              >
+              <Tooltip text="Time in milliseconds between each frame." position="right">
                 <label>
                   Frame Delay
                   <input
@@ -143,7 +127,7 @@ export function Settings() {
         </label>
 
         <Tooltip
-          text="These colors will be shown, alternating, in a grid over the image to display how the tiles will look like."
+          text="These colors will be shown alternating in a grid over the image to display how the tiles will look like."
           position="right"
         >
           <label>
@@ -159,7 +143,7 @@ export function Settings() {
         </Tooltip>
 
         <Tooltip
-          text="These colors will be shown, alternating, in a grid over the image to display how the tiles will look like."
+          text="These colors will be shown alternating in a grid over the image to display how the tiles will look like."
           position="right"
         >
           <label>
@@ -177,9 +161,7 @@ export function Settings() {
 
       <footer class={styles.Footer}>
         <p>Image Splitter V3 by Ruyi Li 😎</p>
-        <a href="https://github.com/RuyiLi/image-splitter">
-          This project is open source!
-        </a>
+        <a href="https://github.com/RuyiLi/image-splitter">This project is open source!</a>
       </footer>
     </div>
   )

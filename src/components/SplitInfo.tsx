@@ -6,6 +6,7 @@ import { useStore } from '../store'
 export function SplitInfo(props: { onSplit: () => unknown }) {
   const [state, setState] = useStore()
 
+  // not sure why i didn't just go with rows? probably some linebreak issues
   return (
     <div class={styles.SplitInfo}>
       <div class="row">
@@ -16,36 +17,32 @@ export function SplitInfo(props: { onSplit: () => unknown }) {
           <Tooltip text="Number of vertical tiles" position="left">
             <p>Rows</p>
           </Tooltip>
+          <Tooltip text="Number of tiles to be generated in total" position="left">
+            <p>Tiles</p>
+          </Tooltip>
           <Tooltip
             text="Number of transparent pixels on the right of the rightmost tiles"
             position="left"
           >
             <p>Overflow X</p>
           </Tooltip>
-          <Tooltip
-            text="Number of transparent pixels below the bottommost tiles"
-            position="left"
-          >
+          <Tooltip text="Number of transparent pixels below the bottommost tiles" position="left">
             <p>Overflow Y</p>
           </Tooltip>
-          <Tooltip
-            text="Time taken in milliseconds for the last split"
-            position="left"
-          >
+          <Tooltip text="Time taken in milliseconds for the last split" position="left">
             <p>Time Taken</p>
           </Tooltip>
         </div>
         <div class="col">
           <p>{state.splitSettings.columns}</p>
           <p>{state.splitSettings.rows}</p>
+          <p>{state.splitSettings.columns * state.splitSettings.rows}</p>
           <p>
-            {state.splitSettings.columns * state.splitSettings.tileSize -
-              state.image.width}
+            {state.splitSettings.columns * state.splitSettings.tileSize - state.image.width}
             px
           </p>
           <p>
-            {state.splitSettings.rows * state.splitSettings.tileSize -
-              state.image.height}
+            {state.splitSettings.rows * state.splitSettings.tileSize - state.image.height}
             px
           </p>
           <p>

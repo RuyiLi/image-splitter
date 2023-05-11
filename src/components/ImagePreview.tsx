@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount } from 'solid-js'
+import { createEffect, createMemo, createSignal, onMount } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
 
 import { type IAppState } from '../store'
@@ -22,16 +22,25 @@ interface SetTransformOpts {
  */
 export function ImagePreview() {
   let canvas: HTMLCanvasElement,
-    pinchZoom: PinchZoom,
     ctx: CanvasRenderingContext2D,
+    tileCanvas: HTMLCanvasElement,
+    tileCtx: CanvasRenderingContext2D,
+    pinchZoom: PinchZoom,
     frameInterval: number,
     worker: Worker
 
   const [state, setState] = useStore()
-  const [frameIndex, setFrameIndex] = createSignal(0)
   const [zoom, setZoom] = createSignal(100)
+  let frameIdx = 0
 
   const [baseTransform, setBaseTransform] = createStore<SetTransformOpts>({})
+
+  const getFrames = createMemo(() => {
+    if (!state?.image) return
+    return fetch(state.image.src)
+      .then((res) => res.arrayBuffer())
+      .then((arrayBuffer) => decompressFrames(parseGIF(arrayBuffer), true))
+  })
 
   function initializeWorker() {
     if (!worker) {
@@ -43,20 +52,23 @@ export function ImagePreview() {
 
       worker.addEventListener('message', function ({ data: { type, data } }) {
         if (type === 'update1') {
+          // First batch of updates (pre-blob-conversion)
           const [x, y] = data
           if ((x + y) % 2 === 0) {
             const { tileSize } = state.splitSettings
-            ctx.fillStyle = state.siteSettings.colorA || 'transparent'
-            ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize)
+            tileCtx.fillStyle = state.siteSettings.colorA || 'transparent'
+            tileCtx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize)
           }
         } else if (type === 'update2') {
+          // First batch of updates (post-blob-conversion)
           const [x, y] = data
           if ((x + y) % 2 === 1) {
             const { tileSize } = state.splitSettings
-            ctx.fillStyle = state.siteSettings.colorB || 'transparent'
-            ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize)
+            tileCtx.fillStyle = state.siteSettings.colorB || 'transparent'
+            tileCtx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize)
           }
         } else if (type === 'finish') {
+          // Final update (psot-zip-generation)
           const { time, out } = data
           setState({ timeTaken: time, isSplitting: false })
           terminateWorker()
@@ -76,7 +88,9 @@ export function ImagePreview() {
     const { width, height } = state.image
     const { clientWidth, clientHeight } = pinchZoom
     const scale = Math.min(clientWidth / width, clientHeight / height, 1)
+
     ctx = canvas.getContext('2d', { willReadFrequently: true })
+    tileCtx = tileCanvas.getContext('2d')
     setBaseTransform({
       scale,
       x: clientWidth / 2 - (width * scale) / 2,
@@ -88,7 +102,7 @@ export function ImagePreview() {
     const { frameDelay } = state.splitSettings
     if (state.isAnimated && frameDelay) {
       clearInterval(frameInterval)
-      frameInterval = setInterval(() => setFrameIndex((i) => i + 1), frameDelay)
+      frameInterval = setInterval(() => requestAnimationFrame(drawImage), frameDelay)
     }
   })
 
@@ -97,50 +111,69 @@ export function ImagePreview() {
     adjustZoom()
   })
 
-  createEffect(updatePreview)
-
-  async function drawAnimatedImage() {
-    // I hate gifs
-    const frames = await state.frames
-    const frame = frames[frameIndex() % frames.length]
-    const { width, height } = frame.dims
-    if (frame.disposalType === 1) {
-      // On top
-      const imgData = ctx.createImageData(width, height)
-      imgData.data.set(frame.patch)
-      ctx.putImageData(imgData, 0, 0)
-    } else if (frame.disposalType === 2) {
-      // Overwrite
-      const imgData = new ImageData(frame.patch, frame.dims.width, frame.dims.height)
-      ctx.putImageData(imgData, 0, 0)
-    } else {
-    }
-  }
-
-  function updatePreview() {
+  createEffect(() => {
     const { tileSize } = state.splitSettings
-    const { colorA, colorB } = state.siteSettings
     const { width, height } = state.image
 
     const columns = Math.ceil(width / tileSize)
     const rows = Math.ceil(height / tileSize)
 
-    canvas.width = tileSize * columns
-    canvas.height = tileSize * rows
+    canvas.width = tileCanvas.width = tileSize * columns
+    canvas.height = tileCanvas.height = tileSize * rows
 
-    frameIndex()
-    if (state.isAnimated) {
-      drawAnimatedImage()
+    drawImage()
+    updatePreview(tileSize, columns, rows)
+  })
+
+  async function drawAnimatedImage() {
+    const frames = await getFrames()
+    const frame = frames[frameIdx++ % frames.length]
+
+    const { width, height, top, left } = frame.dims
+    const imgData = new ImageData(frame.patch, width, height)
+    console.log(frame.disposalType)
+    if (frame.disposalType === 1) {
+      // Draw on top of prev
+      const tempCanvas = document.createElement('canvas')
+      tempCanvas.width = width
+      tempCanvas.height = height
+      const tempCtx = tempCanvas.getContext('2d')
+      const frameImgData = tempCtx.createImageData(width, height)
+      frameImgData.data.set(frame.patch)
+      tempCtx.putImageData(frameImgData, 0, 0)
+      ctx.drawImage(tempCanvas, left, top)
+      tempCtx.clearRect(0, 0, width, height)
+      tempCtx.drawImage(canvas, 0, 0)
+      document.body.append(tempCanvas)
     } else {
-      ctx.drawImage(state.image, 0, 0)
+      // Overwrite, putImageData clears for us
+      ctx.putImageData(imgData, 0, 0)
     }
+  }
 
+  function drawImage() {
+    if (state.image) {
+      if (state.isAnimated) {
+        drawAnimatedImage()
+      } else {
+        ctx.drawImage(state.image, 0, 0)
+      }
+    } else {
+      clearInterval(frameInterval)
+    }
+  }
+
+  function updatePreview(tileSize, columns, rows) {
+    const { colorA, colorB } = state.siteSettings
+
+    // Draw the tile overlay
+    tileCtx.clearRect(0, 0, tileCanvas.width, tileCanvas.height)
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < columns; x++) {
         // Set to transparent as a placeholder if either colorA or colorB is invalid
-        ctx.fillStyle = 'transparent'
-        ctx.fillStyle = (x + y) % 2 === 0 ? colorA : colorB
-        ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize)
+        tileCtx.fillStyle = 'transparent'
+        tileCtx.fillStyle = (x + y) % 2 === 0 ? colorA : colorB
+        tileCtx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize)
       }
     }
 
@@ -168,9 +201,8 @@ export function ImagePreview() {
   function split() {
     if (!state.isSplitting) {
       initializeWorker()
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.drawImage(state.image, 0, 0)
       setState({ isSplitting: true })
+      tileCtx.clearRect(0, 0, tileCanvas.width, tileCanvas.height)
       worker.postMessage({
         state: JSON.parse(JSON.stringify(state)),
         imageData: ctx.getImageData(0, 0, canvas.width, canvas.height),
@@ -211,7 +243,10 @@ export function ImagePreview() {
       <SplitInfo onSplit={split} />
 
       <pinch-zoom ref={pinchZoom} onWheel={adjustZoom}>
-        <canvas ref={canvas}></canvas>
+        <div>
+          <canvas ref={canvas}></canvas>
+          <canvas class={styles.TileOverlayCanvas} ref={tileCanvas}></canvas>
+        </div>
       </pinch-zoom>
 
       <div class={styles.ZoomControls}>

@@ -1,6 +1,8 @@
 ## Image Splitter
 
-Splits images into square tiles, like Discord emojis. Version 3!
+Splits images into square tiles. Version 3!
+
+Can be used for things like Discord emojis or Instagram tiles.
 
 ## What's New
 
@@ -8,12 +10,12 @@ Splits images into square tiles, like Discord emojis. Version 3!
 - Much faster! See benchmarks section below.
 - Now supports pasting URLs and images directly.
 - Live preview of the image and split tiles, with panning/zooming capabilities.
-- Togglable light/dark theme.
+- Light/dark theme.
 
 ## Future
 
 - Webp output support
-- Shrink to fit one server (like V1)
+- Shrink to fit one server (like V2)
 
 ## Privacy
 
