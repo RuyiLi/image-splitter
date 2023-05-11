@@ -1,4 +1,5 @@
-import { Component } from 'solid-js'
+import { type Component, type JSXElement } from 'solid-js'
+
 import { classes } from '../util'
 import styles from '../styles/Tooltip.module.scss'
 
@@ -7,7 +8,9 @@ interface TooltipProps {
   position?: 'top' | 'bottom' | 'left' | 'right'
 }
 
-export const Tooltip: Component<TooltipProps> = (props) => {
+export const Tooltip: Component<TooltipProps & { children: JSXElement }> = (
+  props
+) => {
   let container
   return (
     <div ref={container} class={styles.Tooltip}>

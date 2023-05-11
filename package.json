@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "image-splitter",
+  "version": "3.0.0",
+  "description": "Splits images into square tiles.",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -11,13 +11,17 @@
   "license": "MIT",
   "devDependencies": {
     "sass": "^1.37.5",
-    "vite": "^2.4.4",
-    "vite-plugin-solid": "^2.0.1"
+    "vite": "^4.3.5",
+    "vite-plugin-solid": "^2.0.1",
+    "vite-plugin-top-level-await": "^1.2.2",
+    "vite-plugin-wasm": "^3.1.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "fflate": "^0.7.1",
+    "gifenc": "^1.0.3",
+    "gifuct-js": "^2.1.2",
     "pinch-zoom-element": "^1.1.1",
     "solid-js": "^1.0.7"
   }

@@ -1,6 +1,6 @@
 import {
-  ISiteSettings,
-  ISplitSettings,
+  type ISiteSettings,
+  type ISplitSettings,
   defaultSettings,
   useStore,
 } from '../store'
@@ -175,8 +175,8 @@ export function Settings() {
         </Tooltip>
       </form>
 
-      <footer className={styles.Footer}>
-        <p>Created by Ruyi Li 👨‍💻</p>
+      <footer class={styles.Footer}>
+        <p>Image Splitter V3 by Ruyi Li 😎</p>
         <a href="https://github.com/RuyiLi/image-splitter">
           This project is open source!
         </a>

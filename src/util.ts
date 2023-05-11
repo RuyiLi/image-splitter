@@ -2,7 +2,8 @@ export function classes(...names: string[]): string {
   return names.filter(Boolean).join(' ')
 }
 
-export function isGif(uri: string): boolean {
+export function isAnimated(uri: string): boolean {
+  // webps can be animated too, but we'll stick to this method for now
   try {
     const url = new URL(uri)
     return url.pathname.endsWith('.gif')

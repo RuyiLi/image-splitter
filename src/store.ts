@@ -1,4 +1,7 @@
+import { ParsedFrame, decompressFrames, parseGIF } from 'gifuct-js'
 import { SetStoreFunction, Store, createStore } from 'solid-js/store'
+
+import { createMemo } from 'solid-js'
 
 export interface ISplitSettings {
   tileSize: number
@@ -21,6 +24,8 @@ export interface IAppState {
   timeTaken: number
   splitSettings: ISplitSettings
   siteSettings: ISiteSettings
+
+  frames: Promise<ParsedFrame[]>
 }
 
 export const defaultSettings: IAppState = {
@@ -40,18 +45,31 @@ export const defaultSettings: IAppState = {
     colorA: 'rgba(0, 0, 0, 0.5)',
     colorB: 'rgba(255, 255, 255, 0.25)',
   },
+  frames: null,
 }
 
-let store
-export function useStore(): [Store<IAppState>, SetStoreFunction<IAppState>] {
+let store: [Store<IAppState>, SetStoreFunction<IAppState>]
+export function useStore() {
   const localSettings = JSON.parse(localStorage.getItem('siteSettings'))
   if (!store) {
+    let frames
     store = createStore<IAppState>({
       ...defaultSettings,
       siteSettings: {
         ...defaultSettings.siteSettings,
         ...localSettings,
       },
+      get frames() {
+        return frames()
+      },
+    })
+    frames = createMemo(() => {
+      const [state, _setState] = store
+      console.log(state.image)
+      if (!state?.image) return
+      return fetch(state.image.src)
+        .then((res) => res.arrayBuffer())
+        .then((arrayBuffer) => decompressFrames(parseGIF(arrayBuffer), true))
     })
   }
   return store

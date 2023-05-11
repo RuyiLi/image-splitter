@@ -1,33 +1,34 @@
-## Usage
+## Image Splitter
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.js.org/) via `pnpm up -Lri`.
+Splits images into square tiles, like Discord emojis. Version 3!
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+## What's New
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+- Cooler and friendlier UI.
+- Much faster! See benchmarks section below.
+- Now supports pasting URLs and images directly.
+- Live preview of the image and split tiles, with panning/zooming capabilities.
+- Togglable light/dark theme.
 
-## Available Scripts
+## Future
 
-In the project directory, you can run:
+- Webp output support
+- Shrink to fit one server (like V1)
 
-### `npm dev` or `npm start`
+## Privacy
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+All of the work happens client-side (i.e. I don't store any of your images).
 
-The page will reload if you make edits.<br>
+## Development
 
-### `npm run build`
+`image-splitter` runs on SolidJS and Vite. To get started, install the required dependencies by running `yarn` and start the development server with `yarn dev`.
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+When developing on Firefox, use `yarn build && yarn serve` instead. Loses HMR, but gets rid of some annoying problems involving web workers.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Screenshots
 
-## Deployment
+TODO
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+## Benchmarks
+
+TODO

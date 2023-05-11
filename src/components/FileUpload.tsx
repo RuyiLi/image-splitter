@@ -1,5 +1,5 @@
-import { Show, createSignal, onCleanup, onMount } from 'solid-js'
-import { classes, isGif } from '../util'
+import { classes, isAnimated } from '../util'
+import { createSignal, onCleanup, onMount } from 'solid-js'
 
 import styles from '../styles/FileUpload.module.scss'
 import { useStore } from '../store'
@@ -9,41 +9,38 @@ export function FileUpload() {
   const [state, setState] = useStore()
   const [covering, setCovering] = createSignal(false)
 
-  onMount(() => {
-    document.addEventListener('keydown', handlePaste)
-  })
+  onMount(() => document.addEventListener('keydown', handlePaste))
+  onCleanup(() => document.removeEventListener('keydown', handlePaste))
 
-  onCleanup(() => {
-    document.removeEventListener('keydown', handlePaste)
-  })
-
-  function setImage(urlOrBlob: string | Blob) {
+  function getImage(urlOrBlob: string | Blob) {
     const image = new Image()
-    if (typeof urlOrBlob === 'string') {
-      image.src = urlOrBlob
-    } else {
-      image.src = URL.createObjectURL(urlOrBlob)
-    }
-    image.addEventListener('load', () => setState({ image }), {
-      once: true,
+    image.src = typeof urlOrBlob === 'string' ? urlOrBlob : URL.createObjectURL(urlOrBlob)
+    return new Promise<HTMLImageElement>((res) => {
+      image.addEventListener('load', () => res(image), { once: true })
     })
   }
 
   async function handlePaste(evt: KeyboardEvent) {
     if (evt.code === 'KeyV' && (evt.metaKey || evt.ctrlKey)) {
-      const items = await navigator.clipboard.read()
+      try {
+        var items = await navigator.clipboard.read()
+      } catch {
+        alert("Sorry, your browser doesn't support reading from the clipboard.")
+        return
+      }
       const item = items[0]
       const imageType = item.types.find((type) => type.startsWith('image/'))
       if (imageType) {
         // An image was pasted
         const blob = await item.getType(imageType)
-        setImage(blob)
-        setState({ isAnimated: false }) // gifs cannot be copy/pasted
+        setState({
+          isAnimated: false, // gifs cannot be copy/pasted
+          image: await getImage(blob),
+        })
       } else if (item.types.includes('text/plain')) {
         // Assume a URL was pasted
         const url = await item.getType('text/plain').then((blob) => blob.text())
-        setImage(url)
-        setState({ isAnimated: isGif(url) })
+        setState({ isAnimated: isAnimated(url), image: await getImage(url) })
       }
     }
   }
@@ -52,18 +49,16 @@ export function FileUpload() {
     fileInput.click()
   }
 
-  function handleFile(evt: InputEvent) {
+  async function handleFile(evt: InputEvent) {
     evt.preventDefault()
     const file = (evt.target as HTMLInputElement).files[0]
-    setImage(file)
-    setState({ isAnimated: isGif(file.name) })
+    setState({ isAnimated: isAnimated(file.name), image: await getImage(file) })
   }
 
-  function handleDrop(evt: DragEvent) {
+  async function handleDrop(evt: DragEvent) {
     evt.preventDefault()
     const file = evt.dataTransfer.files[0]
-    setImage(file)
-    setState({ isAnimated: isGif(file.name) })
+    setState({ isAnimated: isAnimated(file.name), image: await getImage(file) })
   }
 
   function showCover(evt: Event) {
@@ -87,13 +82,7 @@ export function FileUpload() {
       onClick={handleClick}
       onDrop={handleDrop}
     >
-      <div
-        class={classes(
-          'no-select',
-          styles.UploadCover,
-          covering() && styles.active
-        )}
-      >
+      <div class={classes('no-select', styles.UploadCover, covering() && styles.active)}>
         <i class={`no-select fas fa-file-upload ${styles.Icon}`}></i>
       </div>
 

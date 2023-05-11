@@ -1,13 +1,14 @@
 import { createEffect, createSignal, onMount } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
 
-import type { IAppState } from '../store'
-import PinchZoom from 'pinch-zoom-element'
+import { type IAppState } from '../store'
 import { SplitInfo } from './SplitInfo'
-import SplitWorker from '../split.ts?worker'
 import { Tooltip } from './Tooltip'
-import styles from '../styles/ImagePreview.module.scss'
 import { useStore } from '../store'
+import PinchZoom from 'pinch-zoom-element'
+import SplitWorker from '../split.ts?worker'
+import styles from '../styles/ImagePreview.module.scss'
+import { parseGIF, decompressFrames } from 'gifuct-js'
 
 interface SetTransformOpts {
   scale?: number
@@ -15,22 +16,29 @@ interface SetTransformOpts {
   y?: number
 }
 
+/**
+ * Yes, ImagePreview calls the split worker
+ * @returns
+ */
 export function ImagePreview() {
   let canvas: HTMLCanvasElement,
     pinchZoom: PinchZoom,
-    ctx: CanvasRenderingContext2D
+    ctx: CanvasRenderingContext2D,
+    frameInterval: number,
+    worker: Worker
+
   const [state, setState] = useStore()
+  const [frameIndex, setFrameIndex] = createSignal(0)
   const [zoom, setZoom] = createSignal(100)
 
   const [baseTransform, setBaseTransform] = createStore<SetTransformOpts>({})
 
-  let worker: Worker
   function initializeWorker() {
     if (!worker) {
       worker = new SplitWorker()
 
       worker.addEventListener('error', function (evt) {
-        console.error(evt.error)
+        console.error(evt)
       })
 
       worker.addEventListener('message', function ({ data: { type, data } }) {
@@ -51,10 +59,11 @@ export function ImagePreview() {
         } else if (type === 'finish') {
           const { time, out } = data
           setState({ timeTaken: time, isSplitting: false })
+          terminateWorker()
 
           const a = document.createElement('a')
           a.href = URL.createObjectURL(new Blob([out]))
-          a.download = `${state.splitSettings.filePrefix}_split_result.zip`
+          a.download = `${state.splitSettings.filePrefix}_split.zip`
           a.click()
           URL.revokeObjectURL(a.href)
         }
@@ -67,9 +76,7 @@ export function ImagePreview() {
     const { width, height } = state.image
     const { clientWidth, clientHeight } = pinchZoom
     const scale = Math.min(clientWidth / width, clientHeight / height, 1)
-    ctx = canvas.getContext('2d', {
-      willReadFrequently: true,
-    })
+    ctx = canvas.getContext('2d', { willReadFrequently: true })
     setBaseTransform({
       scale,
       x: clientWidth / 2 - (width * scale) / 2,
@@ -78,11 +85,37 @@ export function ImagePreview() {
   })
 
   createEffect(() => {
+    const { frameDelay } = state.splitSettings
+    if (state.isAnimated && frameDelay) {
+      clearInterval(frameInterval)
+      frameInterval = setInterval(() => setFrameIndex((i) => i + 1), frameDelay)
+    }
+  })
+
+  createEffect(() => {
     pinchZoom.setTransform(baseTransform)
     adjustZoom()
   })
 
   createEffect(updatePreview)
+
+  async function drawAnimatedImage() {
+    // I hate gifs
+    const frames = await state.frames
+    const frame = frames[frameIndex() % frames.length]
+    const { width, height } = frame.dims
+    if (frame.disposalType === 1) {
+      // On top
+      const imgData = ctx.createImageData(width, height)
+      imgData.data.set(frame.patch)
+      ctx.putImageData(imgData, 0, 0)
+    } else if (frame.disposalType === 2) {
+      // Overwrite
+      const imgData = new ImageData(frame.patch, frame.dims.width, frame.dims.height)
+      ctx.putImageData(imgData, 0, 0)
+    } else {
+    }
+  }
 
   function updatePreview() {
     const { tileSize } = state.splitSettings
@@ -95,7 +128,12 @@ export function ImagePreview() {
     canvas.width = tileSize * columns
     canvas.height = tileSize * rows
 
-    ctx.drawImage(state.image, 0, 0)
+    frameIndex()
+    if (state.isAnimated) {
+      drawAnimatedImage()
+    } else {
+      ctx.drawImage(state.image, 0, 0)
+    }
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < columns; x++) {
@@ -140,11 +178,15 @@ export function ImagePreview() {
     }
   }
 
-  function cancel() {
+  function terminateWorker() {
     if (worker) {
       worker.terminate()
       worker = null
     }
+  }
+
+  function cancel() {
+    terminateWorker()
     setState((state) => ({
       image: state.isSplitting ? state.image : null,
       isSplitting: false,

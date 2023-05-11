@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "lib": ["es2017", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
